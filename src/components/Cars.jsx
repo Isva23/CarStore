@@ -1,4 +1,10 @@
-export default function Cars ({cars}) {
+export default function Cars ({cars,addToCart}) {
+    
+    
+    const handleClick = (event) => {
+        event.preventDefault() 
+        addToCart(cars)  
+    };
 
     return (
         <>
@@ -15,8 +21,10 @@ export default function Cars ({cars}) {
                     <h5 className="card-title font-weight-normal">{cars.name}</h5>
                     <p className="card-text">{cars.description}</p>
                     <div className="mt-auto">
-                        <h4 className="text-success font-weight-bold">${cars.price}</h4>
-                        <a href="#" className="btn btn-dark mt-2">Agregar al carrito</a>
+                        <h3 className="text-success font-weight-bold">${cars.price}</h3>
+                        <a href="#" className="btn btn-dark mt-2"
+                        onClick={handleClick}
+                        >Agregar al carrito</a>
                     </div>
                 </div>
             </div>

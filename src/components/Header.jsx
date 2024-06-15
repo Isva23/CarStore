@@ -1,4 +1,10 @@
-export default function Header() {
+import { useMemo } from "react";
+
+export default function Header({cart}) {
+
+    const cartTotal = useMemo( () => cart.reduce( (total,item) => total + (item.quantity * item.price),0 ),[cart])
+    const total  = cart.length
+
     return (
         <>
         
@@ -14,8 +20,9 @@ export default function Header() {
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav ml-auto">
                         <li className="nav-item dropdown">
-                            <a className="nav-link dropdown-toggle" href="#" id="cartDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Carrito
+                            <h4 className="text-warning font-weight-bold">{total}</h4>
+                            <a className="nav-link" href="#" id="cartDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="public\carrito-de-compras.png" width="60" height="60"/>
                             </a>
                             <div className="dropdown-menu dropdown-menu-right p-2" aria-labelledby="cartDropdown">
                                 <table className="table table-hover mb-0 align-items-center">
@@ -29,21 +36,40 @@ export default function Header() {
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        {cart.map((cart) => (
+                                        <>
                                         <tr>
-                                            <td><img src="https://via.placeholder.com/50" className="product-image" alt="Producto 1"></img></td>
-                                            <td>Producto 1</td>
-                                            <td>$10.00</td>
+                                            <td><img className="product-image image-fluid" src={`public/${cart.image}`} alt={cart.name} 
+                                                style={{ 
+                                                    objectFit: 'cover',  
+                                                    height: '60px',     
+                                                    width: '100%'         
+                                                }}>
+                                            </img></td>
+                                            <td>{cart.name}</td>
+                                            <td>${cart.price}</td>
                                             <td>
-                                                <input type="number" className="form-control form-control-sm"></input>
+                                                <div className="d-flex align-items-center"  style={{ gap: '10px' }}>
+                                                    <button type="button" className="btn btn-dark">
+                                                        -
+                                                    </button>
+                                                    <span> {cart.quantity} </span>
+                                                    <button type="button" className="btn btn-dark">
+                                                        +
+                                                    </button>
+                                                </div>
                                             </td>
                                             <td>
-                                                <button className="btn btn-danger text-center">x</button>
+                                                <button className="btn btn-danger">x</button>
                                             </td>
                                         </tr>
+                                        </>
+                                        ))}
                                     </tbody>
                                 </table>
                                 <div className="dropdown-divider"></div>
-                                <a href="#" className="btn btn-primary btn-block">Proceder al Pago</a>
+                                <p className="btn-block text-right font-weight-bold">Total a pagar : ${cartTotal} </p>
+                                <button className="btn btn-warning btn-block text-white font-weight-bold">Proceder al Pago</button>
                             </div>
                         </li>
                     </ul>
