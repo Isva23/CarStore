@@ -1,23 +1,43 @@
-export default function Header() {
+import { useMemo } from "react";
+
+export default function Header({cart,updateCart,deleteItem}) {
+
+    const cartTotal = useMemo( () => cart.reduce( (total,item) => total + (item.quantity * item.price),0 ),[cart])
+    const total  = cart.length
+
+    const handleButtonClick = (event, id, action) => {
+        event.stopPropagation();
+        updateCart(id, action);
+    };
+    
+    const deleteButtonClick = (event, id) => {
+        event.stopPropagation();
+        deleteItem(id);
+    };
+
+
     return (
         <>
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-                <a class="navbar-brand" href="#">
-                    <img src=".\public\coche.png" width="60" height="60" alt=""></img>
-                    <a class="p-4">MyCar</a>
+        
+            <nav className="navbar navbar-expand-lg navbar-dark bg-dark py-4">
+                <div className="container">
+                <a className="navbar-brand" href="#">
+                    <img src=".\public\coche.png" width="90" height="90" alt=""></img>
+                    <h1 className="font-weight-bold">MyCar</h1>
                 </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span className="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="cartDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Carrito
+                <div className="collapse navbar-collapse" id="navbarNav">
+                    <ul className="navbar-nav ml-auto">
+                        <li className="nav-item dropdown">
+                            <h4 className="text-warning font-weight-bold">{total}</h4>
+                            <a className="nav-link" href="#" id="cartDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="public\carrito-de-compras.png" width="60" height="60"/>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right p-2" aria-labelledby="cartDropdown">
-                                <table class="table table-hover mb-0">
-                                    <thead class="thead-light">
+                            <div className="dropdown-menu dropdown-menu-right p-2" aria-labelledby="cartDropdown">
+                                <table className="table table-hover mb-0 align-items-center">
+                                    <thead className="thead-light">
                                         <tr>
                                             <th scope="col">Imagen</th>
                                             <th scope="col">Nombre</th>
@@ -27,27 +47,52 @@ export default function Header() {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td><img src="https://via.placeholder.com/50" class="product-image" alt="Producto 1"></img></td>
-                                            <td>Producto 1</td>
-                                            <td>$10.00</td>
+                                        {cart.map((cart) => (
+                                        <>
+                                        <tr key={cart.id}>
+                                            <td><img className="product-image image-fluid" src={`public/${cart.image}`} alt={cart.name} 
+                                                style={{ 
+                                                    objectFit: 'cover',  
+                                                    height: '60px',     
+                                                    width: '100%'         
+                                                }}>
+                                            </img></td>
+                                            <td>{cart.name}</td>
+                                            <td>${cart.price}</td>
                                             <td>
-                                                <input type="number" class="form-control form-control-sm" value="1" min="1"></input>
+                                                <div className="d-flex align-items-center"  style={{ gap: '10px' }}>
+                                                    <button type="button" className="btn btn-dark"
+                                                        onClick={(event) => handleButtonClick(event, cart.id, 2)}>
+                                                        -
+                                                    </button>
+                                                    <span> {cart.quantity} </span>
+                                                    <button type="button" className="btn btn-dark"
+                                                        onClick={(event) => handleButtonClick(event, cart.id, 1)}>
+                                                        +
+                                                    </button>
+                                                </div>
                                             </td>
                                             <td>
-                                                <button class="btn btn-danger   ">Eliminar</button>
+                                            <button className="btn btn-danger rounded-circle d-flex 
+                                                align-items-center justify-content-center" 
+                                                onClick={(event) => deleteButtonClick(event, cart.id)}
+                                                style={{ height: '40px', width: '40px' }}>x
+                                            </button>
                                             </td>
                                         </tr>
+                                        </>
+                                        ))}
                                     </tbody>
                                 </table>
-                                <div class="dropdown-divider"></div>
-                                <a href="#" class="btn btn-primary btn-block">Proceder al Pago</a>
+                                <div className="dropdown-divider"></div>
+                                <p className="btn-block text-right font-weight-bold">Total a pagar : ${cartTotal} </p>
+                                <button className="btn btn-warning btn-block text-white font-weight-bold">Proceder al Pago</button>
                             </div>
                         </li>
                     </ul>
                 </div>
+                </div>
             </nav>
-
         </>
     )
 }
