@@ -1,9 +1,20 @@
 import { useMemo } from "react";
 
-export default function Header({cart}) {
+export default function Header({cart,updateCart,deleteItem}) {
 
     const cartTotal = useMemo( () => cart.reduce( (total,item) => total + (item.quantity * item.price),0 ),[cart])
     const total  = cart.length
+
+    const handleButtonClick = (event, id, action) => {
+        event.stopPropagation();
+        updateCart(id, action);
+    };
+    
+    const deleteButtonClick = (event, id) => {
+        event.stopPropagation();
+        deleteItem(id);
+    };
+
 
     return (
         <>
@@ -38,7 +49,7 @@ export default function Header({cart}) {
                                     <tbody>
                                         {cart.map((cart) => (
                                         <>
-                                        <tr>
+                                        <tr key={cart.id}>
                                             <td><img className="product-image image-fluid" src={`public/${cart.image}`} alt={cart.name} 
                                                 style={{ 
                                                     objectFit: 'cover',  
@@ -50,17 +61,23 @@ export default function Header({cart}) {
                                             <td>${cart.price}</td>
                                             <td>
                                                 <div className="d-flex align-items-center"  style={{ gap: '10px' }}>
-                                                    <button type="button" className="btn btn-dark">
+                                                    <button type="button" className="btn btn-dark"
+                                                        onClick={(event) => handleButtonClick(event, cart.id, 2)}>
                                                         -
                                                     </button>
                                                     <span> {cart.quantity} </span>
-                                                    <button type="button" className="btn btn-dark">
+                                                    <button type="button" className="btn btn-dark"
+                                                        onClick={(event) => handleButtonClick(event, cart.id, 1)}>
                                                         +
                                                     </button>
                                                 </div>
                                             </td>
                                             <td>
-                                                <button className="btn btn-danger">x</button>
+                                            <button className="btn btn-danger rounded-circle d-flex 
+                                                align-items-center justify-content-center" 
+                                                onClick={(event) => deleteButtonClick(event, cart.id)}
+                                                style={{ height: '40px', width: '40px' }}>x
+                                            </button>
                                             </td>
                                         </tr>
                                         </>
