@@ -22,7 +22,7 @@ export default function Header({cart,updateCart,deleteItem}) {
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark py-4">
                 <div className="container">
                 <a className="navbar-brand" href="#">
-                    <img src=".\public\coche.png" width="90" height="90" alt=""></img>
+                    <img src=".\coche.png" width="90" height="90" alt=""></img>
                     <h1 className="font-weight-bold">MyCar</h1>
                 </a>
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,7 +33,7 @@ export default function Header({cart,updateCart,deleteItem}) {
                         <li className="nav-item dropdown">
                             <h4 className="text-warning font-weight-bold">{total}</h4>
                             <a className="nav-link" href="#" id="cartDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="public\carrito-de-compras.png" width="60" height="60"/>
+                                <img src="/carrito-de-compras.png" width="60" height="60"/>
                             </a>
                             <div className="dropdown-menu dropdown-menu-right p-2" aria-labelledby="cartDropdown">
                                 <table className="table table-hover mb-0 align-items-center">
@@ -50,7 +50,7 @@ export default function Header({cart,updateCart,deleteItem}) {
                                         {cart.map((cart) => (
                                         <>
                                         <tr key={cart.id}>
-                                            <td><img className="product-image image-fluid" src={`public/${cart.image}`} alt={cart.name} 
+                                            <td><img className="product-image image-fluid" src={`/${cart.image}`} alt={cart.name} 
                                                 style={{ 
                                                     objectFit: 'cover',  
                                                     height: '60px',     

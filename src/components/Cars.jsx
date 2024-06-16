@@ -10,9 +10,8 @@ export default function Cars ({cars,addToCart}) {
         <>
         <div className="col-md-5 col-lg-4 my-4">
             <div className="card h-100 d-flex flex-column">
-                <img className="card-img-top img-fluid" src={`public/${cars.image}`} alt={cars.name} 
+                <img className="card-img-top img-fluid" src={`/${cars.image}`} alt={cars.name} 
                     style={{ 
-                        objectFit: 'cover',  
                         height: '220px',     
                         width: '100%'         
                     }}
